@@ -60,3 +60,13 @@ target/
 
 #pdfminer
 pdfminer/
+
+pypdf2
+
+out/* 
+split/*
+input/*
+out/*
+samples/*
+results.txt
+terms2.txt
