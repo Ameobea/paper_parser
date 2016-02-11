@@ -1,0 +1,13 @@
+Properties of networks to look for:
+
+Microscopic:
+- degree
+- clustering coeficcient
+- centrality
+
+Macroscopic:
+- degree distrobution
+- total clustering coeficcient
+- degree-degree correlations
+
+- modularity (?)
