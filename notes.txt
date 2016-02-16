@@ -1,13 +1,52 @@
+Overall goal:
+- Retrieve and process many papers about networks
+- Pull out data about networks from the papers and store in a database
+- Analyze that data:
+	Find correspondences between different data points
+	Use to determine the source/type of network by simply knowing its statistics
+
+Plan:
+- Convert the papers from pdf/web form into text
+- Determine if the papers are applicable to what we are looking for
+- Look for keywords/tables that indicate information we can record
+- Return a list of pages/lines/phrases that contain the information we need
+- Manually or semi-automatically store that data in a database
+- Process the recorded data and analyze findings
+
 Properties of networks to look for:
+
+number of components:
+	node/vertex/vertices count
+	edge count
+	average edge count
+		node to connection ratio
+	size of largest/giant component
+
+directed/undirected network
+loops + multi-edges
+
+diameter/geodesic diameter
+average connections per node
+
+degree distribution exponent (gamma + gamma symbol)
 
 Microscopic:
 - degree
 - clustering coeficcient
 - centrality
+	different kinds of centralities
+	degree centrality
+	(average) betweeness centrality / load
 
 Macroscopic:
-- degree distrobution
+- degree distribution
 - total clustering coeficcient
 - degree-degree correlations
 
 - modularity (?)
+
+TODO:
+Search for numbers near keywords and either increase the score or create a seperate metric for that.
+Other advanced language patterns around keywords that indicate that place is what we want.
+Do some testing on various keywords and see how well they work with the search.
+Searching for and finding tables in the text.

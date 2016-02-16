@@ -1,1 +1,7 @@
-graph
+centrality
+degree
+radius
+edge count
+node count
+vertex count
+number of vertices
