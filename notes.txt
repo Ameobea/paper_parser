@@ -50,3 +50,29 @@ Search for numbers near keywords and either increase the score or create a seper
 Other advanced language patterns around keywords that indicate that place is what we want.
 Do some testing on various keywords and see how well they work with the search.
 Searching for and finding tables in the text.
+
+---------------------------
+Identifying areas of interest
+---------------------------
+
+- Create a variety of different searches that look for sets of data in the document
+- Determine a method to use those areas of interest to produce text snippets which contain the desired information
+- Display text snippets in a unified report for the entire document
+- Compile the reports into a report for a batch of documents
+
+==================
+Tables
+==================
+
+- Identifying tablular data is a main goal of this tool.  
+- If a table is most likely discovered, provide the page number as well as a best-effort snapshot of its content
+- Make sure to look for multiple formats of table.
+
+==================
+Future Work
+==================
+
+- Create a HTML report instead of a plain-text report
+  - Include small bits of interactivity such as collapsable info sections, etc.
+- Determine if a paper has anything to do with graphs/networks at all before scanning it for keywords (?)
+- Create more detailed text snippet analysis to minimize manual work
