@@ -70,3 +70,5 @@ out/*
 samples/*
 results.txt
 terms2.txt
+
+web/data

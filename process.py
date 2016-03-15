@@ -8,6 +8,7 @@
 import subprocess
 import os
 import pprint
+import json
 
 from utils.util import *
 from utils.search import KeywordSearch
@@ -35,7 +36,6 @@ out_file_names = os.listdir("out")
 results = []
 
 for file_name in out_file_names:
-  # numbers.append([file_name])
   with open("out/" + file_name) as out_file:
     text = out_file.readlines()
     scanResults = KeywordSearch.scanAllKeywords(text) # scan each page for advanced keywords
@@ -45,4 +45,9 @@ for file_name in out_file_names:
       results.append(scanResults)
 
 results = sorted(results, key=lambda x: (x["document"], x["page"]), reverse=False)
-pprint.pprint(results)
+
+resultsFile = open("web/data/results.json", "w")
+resultsFile.write(json.dumps(results))
+
+os.system("rm web/data/raw/*")
+os.system("cp out/* web/data/raw/")

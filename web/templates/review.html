@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block head %}
+<title>Paper Parser Web UI</title>
+<link rel="stylesheet" type="css/text" href="{{ url_for('static', filename='review.css') }}">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
+<script type="text/javascript" src="{{url_for('static', filename='review.js')}}"></script>
+{% endblock %}
+{% block body %}
+<h1>Paper Parser Manual Review Interface</h1>
+<div id="main">
+<table id="mainTable">
+<tr>
+<th>Document</th>
+<th>Page</th>
+</tr>
+</table>
+</div>
+{% endblock %}
