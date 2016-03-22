@@ -20,6 +20,7 @@ class KeywordSearch:
     results["loops"] = KeywordSearch.loopCountScan(text)
     results["ratios"] = KeywordSearch.loopCountScan(text)
     results["centralities"] = KeywordSearch.loopCountScan(text)
+    results["tables"] = KeywordSearch.tableScan(text)
     anyExist = False
     resultsCopy = copy.deepcopy(results)
     for key, item in results.iteritems():
@@ -32,7 +33,7 @@ class KeywordSearch:
   @staticmethod
   def matchIterator(text, term, fun):
     for lineIndex, line in enumerate(text):
-      if term.lower().strip(' \t\n\r') in line.lower(): # for every instnace of `term` in `text`,
+      if term.lower().strip(' \t\n\r') in line.lower(): # for every instance of `term` in `text`,
         fun(lineIndex, text) # apply fun
 
   # Searches for text like `... there are 234 `term` in total. ...`
@@ -79,3 +80,17 @@ class KeywordSearch:
   @staticmethod
   def centalityScan(text):
     return KeywordSearch.simpleNumericTermSearch(text, "centrality") + KeywordSearch.simpleNumericTermSearch(text, "central")
+
+  @staticmethod
+  def tableScan(text):
+    results = []
+    fun = lambda lineIndex, text: results.append([lambda: "", lambda: text[lineIndex-1]][lineIndex != 0]() + text[lineIndex] + [lambda: "", lambda: text[lineIndex+1]][lineIndex < len(text)-1]() if char_nearby(term, ":", lineIndex, text) else False)
+    finalResults = []
+    for term in ["table", "figure", "fig"]:
+      KeywordSearch.matchIterator(text, term, fun)
+      realResults = []
+      for result in results:
+        if result != False:
+          realResults.append(result.strip(" \t\n\r"))
+      finalResults += realResults
+    return finalResults

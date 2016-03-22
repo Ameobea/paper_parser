@@ -31,7 +31,7 @@ def convert_pdf(f):
 # the three-word proximity.
 def number_nearby(keyword, line_number, text, offset): # TODO: Add support for word numbers like "three"
   # line_number assumes that the first line starts at 1
-  # text is an array of string where each string is a line.
+  # text is an array of strings where each string is a line.
   split = text[line_number+offset].split(" ")
   index = -1
   found_numbers = []
@@ -60,7 +60,14 @@ def number_nearby(keyword, line_number, text, offset): # TODO: Add support for w
         return True
   return False # if nothing found anywhere
 
-def  number(s):
+# returns True if a character is on the same line as a given keyword.
+def char_nearby(keyword, character, line_number, text):
+  for letter in text[line_number]:
+    if letter == character:
+      return True
+  return False
+
+def number(s):
   try:
     float(s)
     return True

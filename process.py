@@ -51,3 +51,4 @@ resultsFile.write(json.dumps(results))
 
 os.system("rm web/data/raw/*")
 os.system("cp out/* web/data/raw/")
+os.system("cp split/* web/data/pdf/")
