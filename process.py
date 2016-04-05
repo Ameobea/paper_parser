@@ -1,9 +1,9 @@
 # Main file for the parser.  It reads in all the files in
 # the input folder and converts all pdfs that it can into
-# txt files located in the out directory.  It then returns
-# the line numbers of all matched terms in `terms.txt`.
-# It then returns the number of times terms were matched
-# for each line.
+# txt files located in the out directory.  It then searches
+# for all the keywords and applies all the applicable
+# keyword filters.  The results of this are then sent to
+# the Flask webserver for manual analysis.
 
 import subprocess
 import os

@@ -5,7 +5,8 @@
 
 ### Description
 Takes scientific or research papers as input.  Given a set of keywords or other identiers, it then searches them for sections of interest.  These areas of interest are then outputted for the user.  
-Modules include a pdf reader for pdf-based papers and a web parser for papers located online.  
+
+Modules include a pdf reader for pdf-based papers and may also includea web parser in the future for papers located online.  
 
 ### Process
 Given input pdfs in the input directory, it first splits them into individual pdfs by page.  Then it converts each of the split pages into text.  Once they have been split, it then converts them into text and runs the scoring function.  Once scores have been determined for each of the pages for each of the input documents, it returns a file (results.txt) which contains a report of the pages with the highest scores and thus the highest liklihood of containing useful data.
@@ -13,14 +14,11 @@ Given input pdfs in the input directory, it first splits them into individual pd
 ### PDF Parser
 Converts a text-based PDF into plaintext words that can be searched.  Should take a regular pdf as input and process it automatically.
 
-### Text Analysis
-Attempts to identify areas of interest in the text.  These areas are identified using one or more of the following methods:
+### Keyword Analysis
+Keywords are identified that point to useful data from the bot.  They are then found within the parsed text from the pdfs and applied to filters.  These filters can do things such as only accept keywords that are near a number, or only return if the keyword occurs at the beginning or the end of a sentence.
 
-#### Keyword Matching
-Simply searches the text for matches from a list of words or phrases.  Can assign a score to pages/sub-pages based on the amount or quality of matches.  
-
-#### Similarity Indexer
-Given a sample text or texts, attempts to find areas of a paper that are similar to another.  Can be run using one or multiple reference texts which will return a similarity score.  
+### Manual Review
+Once the keywords have been located and filtered, the results are parsed into JSON files and sent off to a Flask webserver.  They are then dumped into tables with check boxes for users to classify as useful or not useful.  At this point, it is also possible for data to be inserted into a database or recorded externally.
 
 ## Setup and Execution
 
@@ -48,3 +46,10 @@ This utility is useful for its ability to split pdfs into individual pages.  Thi
 It can be downloaded from here: https://pypi.python.org/pypi/PyPDF2/1.25.1
 
 To install it, navigate to the extracted folder and run the command "python setup.py install" which will install the utility on the machine.  
+
+#### Flask
+This is used to create the webserver that hosts the split pdfs, parsed text, and manual review modules.  In order to install it, follow the process on this page: http://flask.pocoo.org/docs/0.10/installation/
+
+It boils down to the following:
+
+`pip install Flask`

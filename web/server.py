@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def main():
-  return "Hello world"
+  return "See /review"
 
 @app.route("/review")
 def showReview():

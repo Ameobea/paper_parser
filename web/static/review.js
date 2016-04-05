@@ -1,4 +1,6 @@
-"use strict"
+"use strict";
+/*jslint browser: true*/ /*global $*/
+
 /*
 Review Script
 
@@ -27,7 +29,7 @@ $(document).ready(()=>{
     $.get("http://ip.ameobea.me:5000/data/results.json", parsedJson=>{
       saveResults(parsedJson);
     });
-  })
+  });
 });
 
 var saveResults = parsedJson=>{
@@ -46,10 +48,10 @@ var saveResults = parsedJson=>{
     var doc = {document: split[0], page: split[1], type: split[2], index: split[3], text: text};
 
     if(checkboxes[i].checked){
-      checked.push(dox);
+      checked.push(doc);
     }else{
       unchecked.push(doc);
     }
   }
-  //TODO: Save checked and unchecked arrays to file
-}
+  //TODO: Save checked and unchecked arrays to file???
+};
