@@ -10,7 +10,7 @@ review mechanism for output from the Python script
 $(document).ready(()=>{
   $.get("http://ip.ameobea.me:5000/data/results.json", parsedJson=>{
     //printByDocument(mainTable, parsedJson) //Uncomment this line to enable printing grouped by document
-    printByCategory(parsedJson)
+    printByCategory(mainTable, parsedJson)
   });
 
   $("#submitButton").click(()=>{
@@ -28,27 +28,32 @@ into keyword match.
 var printByDocument = parse=>{
   parsedJson.forEach(page=>{
     var mainTable = $("#mainTable");
-    mainTable.append("<tr id='" + page.document + page.page + "'><td>" + page.document + "</td><td><a href='http://ip.ameobea.me:5000/data/raw/" + page.document + "+page-" + page.page + ".txt'>" + page.page + "(txt)</a><br><a href='http://ip.ameobea.me:5000/data/pdf/" + page.document + "+page-" + page.page + ".pdf'>" + page.page + "(pdf)</td>");
 
-    for(var key in page){
-      if (page.hasOwnProperty(key) && key != "document" && key != "page") {
-        $("#" + page.document + page.page).append("<td><p><b>" + key + "</b></p><table>");
-         page[key].forEach((match, matchIndex)=>{
-          $("#" + page.document + page.page + " table").append("<tr><td style='border-top: 1px solid black'><input type='checkbox' class='check' id='" + page.document + "-" + page.page + "-" + key + "-" + matchIndex + "'></td><td style='border-top: 1px solid black'>" + match + "</td></tr>");
-         });
-         $("#" + page.document + page.page).append("</table></td>");
-      }
-    }
+    printPage(mainTable, page);
     mainTable.append("</tr>");
   });
 };
+
+var printPage = (mainTable, page)=>{
+  mainTable.append("<tr class='page-row' id='" + page.document + page.page + "'><td>" + page.document + "</td><td><a href='http://ip.ameobea.me:5000/data/raw/" + page.document + "+page-" + page.page + ".txt'>" + page.page + "(txt)</a><br><a href='http://ip.ameobea.me:5000/data/pdf/" + page.document + "+page-" + page.page + ".pdf'>" + page.page + "(pdf)</td>");
+  for(var key in page){
+    if (page.hasOwnProperty(key) && key != "document" && key != "page") {
+      $("#" + page.document + page.page).append("<td><p><b>" + key + "</b></p><table class='category-table'>");
+       page[key].forEach((match, matchIndex)=>{
+        $("#" + page.document + page.page + " table").append("<tr>"+/*<td style='border-top: 1px solid black'>*/"<input type='checkbox' class='check' id='" + page.document + "-" + page.page + "-" + key + "-" + matchIndex + "'></td><td"+/*" style='border-top: 1px solid black'*/">" + match + "</td></tr>");
+       });
+       $("#" + page.document + page.page).append("</table></td>");
+    }
+  }
+}
 
 /*
 This groups results globally by category.  Every place where a page matches a
 category, it is added to the list of all matches for that category.  That same
 page is also added to the sections for all other categories it matches.
 */
-var printByCategory = parsedJson=>{
+var printByCategory = (mainTable, parsedJson)=>{
+  var mainTable = $("#mainTable");
   var uniqueCategories = [];
   var justCategories = [];
 
@@ -61,24 +66,17 @@ var printByCategory = parsedJson=>{
     }
   });
 
-  var html = "";
-
   uniqueCategories.forEach(category=>{
     category.pageMatches = parsedJson.filter(page=>{
       var exists = page[category.category];
       return typeof exists != "undefined";
     });
 
-    html += `<h1>${category.category}</h1>`;
+    mainTable.append(`<tr><td><h1 class="category-header">${category.category}</td></tr>`);
     category.pageMatches.forEach(page=>{
-      html += `<h2>Document ${page.document} Page ${page.page}</h2>`
-      page[category.category].forEach(match=>{
-        html += match + "<br>";
-      });
+      printPage(mainTable, page);
     });
   });
-
-  $("#main").html(html);
 }
 
 var saveResults = parsedJson=>{

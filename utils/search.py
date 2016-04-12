@@ -60,7 +60,7 @@ class KeywordSearch:
 
   @staticmethod
   def edgeCountScan(text):
-    return KeywordSearch.simpleNumericTermSearch(text, "edges")
+    return KeywordSearch.simpleNumericTermSearch(text, "edges") + KeywordSearch.simpleNumericTermSearch(text, "edge")
 
   @staticmethod
   def loopCountScan(text):
