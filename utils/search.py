@@ -16,10 +16,10 @@ class KeywordSearch:
     results = {}
     results["nodes"] = KeywordSearch.nodeCountScan(text)
     results["vertexes"] = KeywordSearch.vertexCountScan(text)
-    results["edges"] = KeywordSearch.loopCountScan(text)
+    results["edges"] = KeywordSearch.edgeCountScan(text)
     results["loops"] = KeywordSearch.loopCountScan(text)
-    results["ratios"] = KeywordSearch.loopCountScan(text)
-    results["centralities"] = KeywordSearch.loopCountScan(text)
+    results["ratios"] = KeywordSearch.ratioScanner(text)
+    results["centralities"] = KeywordSearch.centalityScan(text)
     results["tables"] = KeywordSearch.tableScan(text)
     anyExist = False
     resultsCopy = copy.deepcopy(results)

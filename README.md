@@ -53,3 +53,15 @@ This is used to create the webserver that hosts the split pdfs, parsed text, and
 It boils down to the following:
 
 `pip install Flask`
+
+#### arxiv.py
+An open source arxiv API python wrapper is used to interface with the arxiv API in a simpler fashion.  Arxiv data is stored in an atom feed style, which is difficult to parse manually.  In order to convert this data format into one that is easier to understand and deal with, arxiv.py is used.  To install, run `pip install arxiv`.  
+
+## Arxiv Data Downloader
+A script exists to download data from arxiv using their public API.  The correct format for this script is `python arxiv-downloader.py -q "network node centrality" -l 50` where `q` is the search query and `l` is the length of the results desired.  
+
+The API returns the following data about each found document:
+
+`updated_parsed, links, summary_detail, affiliation, id, arxiv_primary_category, arxiv_url, published_parsed, title, title_detail, author, arxiv_comment, updated, tags, journal_reference, authors, author_detail, doi, pdf_url, summary, guidislink, published`
+
+Each of these are returned by the API and can be accessed for each matched document.
