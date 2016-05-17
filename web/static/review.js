@@ -8,13 +8,13 @@ Processes input JSON object to generate HTML-based
 review mechanism for output from the Python script
 */
 $(document).ready(()=>{
-  $.get("http://ip.ameobea.me:5000/data/results.json", parsedJson=>{
+  $.get("../data/results.json", parsedJson=>{
     //printByDocument(mainTable, parsedJson) //Uncomment this line to enable printing grouped by document
     printByCategory(mainTable, parsedJson)
   });
 
   $("#submitButton").click(()=>{
-    $.get("http://ip.ameobea.me:5000/data/results.json", parsedJson=>{
+    $.get("../data/results.json", parsedJson=>{
       saveResults(parsedJson);
     });
   });
@@ -23,7 +23,7 @@ $(document).ready(()=>{
 /*
 This groups the results by document.  They are displayed in a sideways tree fashion
 where the document is at the left, which is divided into category, which is divided
-into keyword match.  
+into keyword match.
 */
 var printByDocument = parse=>{
   parsedJson.forEach(page=>{
@@ -35,17 +35,23 @@ var printByDocument = parse=>{
 };
 
 var printPage = (mainTable, page)=>{
-  mainTable.append("<tr class='page-row' id='" + page.document + page.page + "'><td>" + page.document + "</td><td><a href='http://ip.ameobea.me:5000/data/raw/" + page.document + "+page-" + page.page + ".txt'>" + page.page + "(txt)</a><br><a href='http://ip.ameobea.me:5000/data/pdf/" + page.document + "+page-" + page.page + ".pdf'>" + page.page + "(pdf)</td>");
+  mainTable.append("<tr class='page-row' id='" + page.document + page.page + "'><td>" +
+    page.document + "</td><td><a href='../data/raw/" + page.document + "+page-" +
+    page.page + ".txt'>" + page.page + "(txt)</a><br><a href='../data/pdf/" +
+    page.document + "+page-" + page.page + ".pdf'>" + page.page + "(pdf)</td>");
   for(var key in page){
     if (page.hasOwnProperty(key) && key != "document" && key != "page") {
       $("#" + page.document + page.page).append("<td><p><b>" + key + "</b></p><table class='category-table'>");
        page[key].forEach((match, matchIndex)=>{
-        $("#" + page.document + page.page + " table").append("<tr>"+/*<td style='border-top: 1px solid black'>*/"<input type='checkbox' class='check' id='" + page.document + "-" + page.page + "-" + key + "-" + matchIndex + "'></td><td"+/*" style='border-top: 1px solid black'*/">" + match + "</td></tr>");
+        $("#" + page.document + page.page + " table").append("<tr>"+
+          /*<td style='border-top: 1px solid black'>*/"<input type='checkbox' class='check' id='" +
+          page.document + "-" + page.page + "-" + key + "-" + matchIndex + "'></td><td"+
+          /*" style='border-top: 1px solid black'*/">" + match + "</td></tr>");
        });
        $("#" + page.document + page.page).append("</table></td>");
     }
   }
-}
+};
 
 /*
 This groups results globally by category.  Every place where a page matches a
@@ -60,7 +66,7 @@ var printByCategory = (mainTable, parsedJson)=>{
   parsedJson.forEach(page=>{
     for(var key in page){
       if(justCategories.indexOf(key) == -1 && key != "document" && key != "page"){
-        justCategories.push(key)
+        justCategories.push(key);
         uniqueCategories.push({category: key});
       }
     }
@@ -77,7 +83,7 @@ var printByCategory = (mainTable, parsedJson)=>{
       printPage(mainTable, page);
     });
   });
-}
+};
 
 var saveResults = parsedJson=>{
   var checked = [];

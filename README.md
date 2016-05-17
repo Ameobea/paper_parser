@@ -25,7 +25,7 @@ Once the keywords have been located and filtered, the results are parsed into JS
 ### Installation
 This program requires python; developed and tested using python 2.7.6
 
-To install, simply run the command `git clone https://github.com/Ameobea/paper_parser.git` and then navigate to paper_parser directory that is created.  Then follow the instructions for each of the dependencies below to install them.  Finally, create three empty directories in the project root titled `input`, `out`, and `split`.
+To install, simply run the command `git clone https://github.com/Ameobea/paper_parser.git` and then navigate to paper_parser directory that is created.  Then follow the instructions for each of the dependencies below to install them.
 
 ### Execution
 To run the processing script, fill the input directoy with pdfs to be processed.  Then edit the `terms.txt` file and add, one per line, keywords that you'd like the tool to search for.  Then, execute the `run.sh` script and the files will automatically be processed.  This will automatically clear the old data out of the `out` and `split` directories.  You can view the results in `results.txt`.
@@ -38,7 +38,7 @@ The pdfminer suite is used to process the journal PDFs and convert them into pla
 
 PDFMiner can be downloaded from here: https://github.com/euske/pdfminer
 
-In the project's root directory, run the command `git clone https://github.com/euske/pdfminer.git pdfminer` to clone it to the correct directory.  Then navigate to the pdfminer directory and run the command `python setup.py install` to build the package and install it.  See the PDFMiner reference on github for more information.
+In PDFMiner's directory, run the command `git clone https://github.com/euske/pdfminer.git pdfminer` to clone it to the correct directory.  Then navigate to the pdfminer directory and run the command `python setup.py install` to build the package and install it.  See the PDFMiner reference on github for more information.
 
 ##### PyPDF2
 This utility is useful for its ability to split pdfs into individual pages.  This allows each page to be converted and processed individually giving us the ability to assign pages scores based on the number and quality of keywords matched.
@@ -55,7 +55,9 @@ It boils down to the following:
 `pip install Flask`
 
 #### arxiv.py
-An open source arxiv API python wrapper is used to interface with the arxiv API in a simpler fashion.  Arxiv data is stored in an atom feed style, which is difficult to parse manually.  In order to convert this data format into one that is easier to understand and deal with, arxiv.py is used.  To install, run `pip install arxiv`.
+An open source arxiv API python wrapper is used to interface with the arxiv API in a simpler fashion.  Arxiv data is stored in an atom feed style, which is difficult to parse manually.  In order to convert this data format into one that is easier to understand and deal with, arxiv.py is used.
+
+To install, run `pip install arxiv`.
 
 ## Arxiv Data Downloader
 A script exists to download data from arxiv using their public API.  The correct format for this script is `python arxiv-downloader.py -q "network node centrality" -l 50` where `q` is the search query and `l` is the length of the results desired.

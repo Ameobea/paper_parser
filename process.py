@@ -14,24 +14,30 @@ from utils.util import *
 from utils.search import KeywordSearch
 
 # Only convert files if the output directory is empty
-if len(os.listdir("out")) == 0:
+outlist = os.listdir("out")
+outlist.remove(".gitignore")
+if len(outlist) == 0:
   # Split all pdfs in the input directory into pages
   pprint.pprint("Splitting pdfs into pages...")
-  for f in os.listdir("input"):
+
+  infiles = os.listdir("input")
+  infiles.remove(".gitignore")
+  for f in infiles:
     split_pdf(f)
+
   # Process each file in the split directory
   pprint.pprint("converting split pdfs into text...")
   infiles = os.listdir("split")
+  infiles.remove(".gitignore")
   for f in infiles:
     convert_pdf(f)
 
-  # Output processed text files to the out directory
-  out_file_names = os.listdir("out")
-
+# Output processed text files to the out directory
 out_file_names = os.listdir("out")
+out_file_names.remove(".gitignore")
 
 # For every line in the converted files, check the number of keywords
-# that match and return a score for each line with matched keywords.  
+# that match and return a score for each line with matched keywords.
 
 results = []
 
