@@ -1,5 +1,9 @@
 rm out/*
 rm split/*
 python process.py
+rm web/data/raw/*
+cp out/* web/data/raw/
+cp split/* web/data/pdf/
 echo 'launching webserver on port 5000'
-python web/server.py
+cd web
+python server.py

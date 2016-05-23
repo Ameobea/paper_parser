@@ -36,11 +36,9 @@ if len(outlist) == 0:
 out_file_names = os.listdir("out")
 out_file_names.remove(".gitignore")
 
-# For every line in the converted files, check the number of keywords
-# that match and return a score for each line with matched keywords.
-
+# For every line in the converted pages, check the number of keywords
+# that match and return the matches.
 results = []
-
 for file_name in out_file_names:
   with open("out/" + file_name) as out_file:
     text = out_file.readlines()
@@ -54,7 +52,3 @@ results = sorted(results, key=lambda x: (x["document"], x["page"]), reverse=Fals
 
 resultsFile = open("web/data/results.json", "w")
 resultsFile.write(json.dumps(results))
-
-os.system("rm web/data/raw/*")
-os.system("cp out/* web/data/raw/")
-os.system("cp split/* web/data/pdf/")

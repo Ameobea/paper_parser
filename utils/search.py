@@ -3,10 +3,11 @@
 
 from util import *
 import copy
+import pprint
 
 # For all functions, `text` should be an array of lines.
 # `Scan` functions perform searches of the text and return
-# arrays of likely matches.  
+# arrays of likely matches.
 
 class KeywordSearch:
   # Perform all available scans on the text and returns their results
@@ -19,7 +20,7 @@ class KeywordSearch:
     results["edges"] = KeywordSearch.edgeCountScan(text)
     results["loops"] = KeywordSearch.loopCountScan(text)
     results["ratios"] = KeywordSearch.ratioScanner(text)
-    results["centralities"] = KeywordSearch.centalityScan(text)
+    results["centralities"] = KeywordSearch.centralityScan(text)
     results["tables"] = KeywordSearch.tableScan(text)
     anyExist = False
     resultsCopy = copy.deepcopy(results)
@@ -40,18 +41,19 @@ class KeywordSearch:
   @staticmethod
   def simpleNumericTermSearch(text, term):
     results = []
-    fun = lambda lineIndex, text: results.append([lambda: "", lambda: text[lineIndex-1]][lineIndex != 0]() + text[lineIndex] + [lambda: "", lambda: text[lineIndex+1]][lineIndex < len(text)-1]() if number_nearby(term, lineIndex, text, 0) else False)
+    fun = lambda lineIndex, text: results.append([lambda: "", lambda: text[lineIndex-1]][lineIndex != 0]() +
+      text[lineIndex] + [lambda: "", lambda: text[lineIndex+1]][lineIndex < len(text)-1]() if number_nearby(term, lineIndex, text, 0) else False)
     KeywordSearch.matchIterator(text, term, fun)
     realResults = []
     for result in results:
-      if result != False:
+      if result != False and not(result in realResults):
         realResults.append(result.strip(" \t\n\r"))
     return realResults
 
   # Matches text like `... includes 128,000 nodes in total ...`
   @staticmethod
   def nodeCountScan(text):
-    return KeywordSearch.simpleNumericTermSearch(text, "nodes")
+    return KeywordSearch.simpleNumericTermSearch(text, "nodes") + KeywordSearch.simpleNumericTermSearch(text, "node")
 
   # Matches text like `... up to 5023 vertices. ...`
   @staticmethod
@@ -71,26 +73,24 @@ class KeywordSearch:
   def ratioScanner(text):
     return KeywordSearch.simpleNumericTermSearch(text, "ratio")
 
+  # Looks for instances of centrality measurements
+  @staticmethod
+  def centralityScan(text):
+    return KeywordSearch.simpleNumericTermSearch(text, "centrality") + KeywordSearch.simpleNumericTermSearch(text, "central")
+
   # Looks for tablular data formats
   @staticmethod
   def tableScan(text):
-    return # TODO
-
-  # Looks for instances of centrality measurements
-  @staticmethod
-  def centalityScan(text):
-    return KeywordSearch.simpleNumericTermSearch(text, "centrality") + KeywordSearch.simpleNumericTermSearch(text, "central")
-
-  @staticmethod
-  def tableScan(text):
-    results = []
-    fun = lambda lineIndex, text: results.append([lambda: "", lambda: text[lineIndex-1]][lineIndex != 0]() + text[lineIndex] + [lambda: "", lambda: text[lineIndex+1]][lineIndex < len(text)-1]() if char_nearby(term, ":", lineIndex, text) else False)
+    fun = lambda lineIndex, text: results.append([lambda: "", lambda: text[lineIndex-1]][lineIndex != 0]() +
+      text[lineIndex] + [lambda: "", lambda: text[lineIndex+1]][lineIndex < len(text)-1]() if char_nearby(term, ":", lineIndex, text) else False)
     finalResults = []
     for term in ["table", "figure", "fig"]:
+      results = []
       KeywordSearch.matchIterator(text, term, fun)
       realResults = []
       for result in results:
         if result != False:
           realResults.append(result.strip(" \t\n\r"))
       finalResults += realResults
+      pprint.pprint(realResults)
     return finalResults
